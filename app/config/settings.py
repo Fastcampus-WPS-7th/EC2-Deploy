@@ -12,15 +12,22 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import json
 import os
 
-# ec2-deploy/app
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# ec2-deploy
 ROOT_DIR = os.path.dirname(BASE_DIR)
 
-# ec2-deploy/.secrets
+# Static
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(ROOT_DIR, '.static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
+
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
+
+# secrets
 SECRETS_DIR = os.path.join(ROOT_DIR, '.secrets')
-# ec2-deploy/.secrets/base.json
 SECRETS_BASE = os.path.join(SECRETS_DIR, 'base.json')
 
 # base.json파일을 읽어온 결과
@@ -55,6 +62,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'photos',
 ]
 
 MIDDLEWARE = [
@@ -135,4 +144,3 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
