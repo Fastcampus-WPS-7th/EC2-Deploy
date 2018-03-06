@@ -14,7 +14,7 @@ import os
 
 import raven
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 
 # Static
@@ -31,35 +31,11 @@ STATICFILES_DIRS = [
 # secrets
 SECRETS_DIR = os.path.join(ROOT_DIR, '.secrets')
 SECRETS_BASE = os.path.join(SECRETS_DIR, 'base.json')
-
-# base.json파일을 읽어온 결과
-f = open(SECRETS_BASE, 'rt')
-base_text = f.read()
-f.close()
-
-# 위 결과(JSON형식의 문자열)를 파이썬 객체로 변환
-secrets_base = json.loads(base_text)
-
-# 위의 두 단계를 한 줄로 축약
+SECRETS_LOCAL = os.path.join(SECRETS_DIR, 'local.json')
+SECRETS_DEV = os.path.join(SECRETS_DIR, 'dev.json')
 secrets_base = json.loads(open(SECRETS_BASE, 'rt').read())
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = secrets_base['SECRET_KEY']
-
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
-
-ALLOWED_HOSTS = [
-    'localhost',
-    '.amazonaws.com',
-    '127.0.0.1',
-]
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -105,19 +81,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-# Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -135,23 +98,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
+# Raven
 RAVEN_CONFIG = {
-    'dsn': 'https://73c1acd56bc84e5d8f1f042f7e2757b1:b08f4762181940b38463fbddcb03c33c@sentry.io/298200',
-    # If you are using git, you can also automatically configure the
-    # release based on the git info.
+    'dsn': secrets_base['RAVEN_DSN'],
     'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
 }
 
