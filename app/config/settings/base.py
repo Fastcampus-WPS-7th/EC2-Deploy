@@ -43,8 +43,10 @@ SECRET_KEY = secrets_base['SECRET_KEY']
 AWS_ACCESS_KEY_ID = secrets_base['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = secrets_base['AWS_SECRET_ACCESS_KEY']
 AWS_STORAGE_BUCKET_NAME = secrets_base['AWS_STORAGE_BUCKET_NAME']
-AWS_S3_ENDPOINT_URL = 'https://s3.ap-northeast-2.amazonaws.com'
+# 파일의 읽기권한을 없앰
 AWS_DEFAULT_ACL = 'private'
+AWS_S3_REGION_NAME = 'ap-northeast-2'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
